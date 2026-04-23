@@ -7,10 +7,8 @@ const Navbar = ({ theme, setTheme, count }) => {
     <div className="Container-fliude">
       <header className="navbar">
 
-        {/* Logo */}
-        <div className="logo">Om's</div>
-
-        {/* Links */}
+      
+        <div className="logo">Om's PF</div>
         <nav className="nav-links">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
@@ -19,7 +17,7 @@ const Navbar = ({ theme, setTheme, count }) => {
           <Link to="/contact">Contact</Link>
         </nav>
 
-        {/* 🔔 BGMI STYLE NOTIFICATION BELL */}
+    
         <div className="bell-container">
           🔔
           {count > 0 && (

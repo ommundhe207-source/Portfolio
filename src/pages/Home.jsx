@@ -1,8 +1,15 @@
 import './Home.css'
+import React from 'react'
+import About from "./About"
+import Services from './Services';
+import Portfolio from './Portfolio';
+import Contact from './Contact';
+import { Link } from 'react-router-dom';
 
 function Home({ count, setCount }) {
 
   return (
+    <>
     <section className="heros">
       <div className="hero-text">
 
@@ -16,17 +23,17 @@ function Home({ count, setCount }) {
 
         <div className="cta-section">
 
+          <Link to="/portfolio">
           <button className="cta-1">
             Projects <i className="fa-solid fa-code"></i>
-          </button>
+          </button></Link>
 
-          
+           <Link to="/contact">
           <button
             className="cta-2"
-            onClick={() => setCount(count + 1)}
-          >
+            onClick={() => setCount(count + 1)}>
             Hire Me <i className="fa-solid fa-share-from-square"></i>
-          </button>
+          </button></Link>
 
         </div>
 
@@ -51,6 +58,12 @@ function Home({ count, setCount }) {
       </div>
 
     </section>
+<About />
+<Portfolio />
+<Services />
+<Contact />
+    </>
+    
   );
 }
 
