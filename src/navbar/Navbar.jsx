@@ -12,13 +12,13 @@ const Navbar = ({ theme, setTheme, count }) => {
         <div className="logo">Om's PF</div>
 
        
-        <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/portfolio">Project</Link>
-          <Link to="/services">Services</Link>
-          <Link to="/contact">Contact</Link>
-        </nav>
+       <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
+  <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+  <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+  <Link to="/portfolio" onClick={() => setMenuOpen(false)}>Project</Link>
+  <Link to="/services" onClick={() => setMenuOpen(false)}>Services</Link>
+  <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+</nav>
 
         
         <div className="bell-container">🔔
