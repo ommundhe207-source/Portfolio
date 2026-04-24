@@ -36,7 +36,7 @@ const Navbar = ({ theme, setTheme, count }) => {
             setTheme(theme === "light" ? "dark" : "light")
           }
         >
-          {theme === "light" ? "🌙" : "☀"}
+          {theme === "light" ? "🌙 Dark" : "☀ Light"}
         </button>
 
         
