@@ -11,7 +11,7 @@ const Navbar = ({ theme, setTheme, count }) => {
 
         <div className="logo">Om's PF</div>
 
-        {/* 👇 nav links */}
+       
         <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
@@ -20,7 +20,7 @@ const Navbar = ({ theme, setTheme, count }) => {
           <Link to="/contact">Contact</Link>
         </nav>
 
-        {/* 🔔 bell */}
+        
         <div className="bell-container">🔔
           {count > 0 && (
             <span className="badge">
@@ -29,7 +29,7 @@ const Navbar = ({ theme, setTheme, count }) => {
           )}
         </div>
 
-        {/* 🌙 theme */}
+        
         <button
           className="theme-btn"
           onClick={() =>
@@ -39,12 +39,12 @@ const Navbar = ({ theme, setTheme, count }) => {
           {theme === "light" ? "🌙" : "☀"}
         </button>
 
-        {/* 📩 button */}
+        
         <Link to="/contact">
           <button className="book-btn">Message</button>
         </Link>
 
-        {/* 🍔 hamburger */}
+        
         <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
           ☰
         </div>
@@ -55,3 +55,8 @@ const Navbar = ({ theme, setTheme, count }) => {
 };
 
 export default Navbar;
+
+
+
+
+{/* git pull origin main --rebase */}
