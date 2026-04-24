@@ -1,26 +1,65 @@
 import React, { useState, useEffect } from "react";
 import "./Portfolio.css";
 
-function Portfolio() {
-  const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("projects");
-    return saved ? JSON.parse(saved) : [];
-  });
+import { db } from "./firebase";
 
+import {
+  ref,
+  push,
+  set,
+  onValue,
+  remove
+} from "firebase/database";
+
+function Portfolio() {
+  const [projects, setProjects] = useState([]);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [img, setImg] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+const [password, setPassword] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
-  }, [projects]);
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = () => {
+    const projectRef = ref(db, "projects");
+
+    onValue(projectRef, (snapshot) => {
+      const data = snapshot.val();
+
+      if (data) {
+        const loaded = Object.keys(data).map((key) => ({
+          id: key,
+          ...data[key]
+        }));
+
+        setProjects(loaded);
+      } else {
+        setProjects([]);
+      }
+    });
+  };
+
+  const adminLogin = () => {
+  if (password === "om123") {
+    setIsAdmin(true);
+    setPassword("");
+  } else {
+    alert("Wrong Password");
+  }
+};
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
+
     if (!file) return;
 
     const reader = new FileReader();
+
     reader.onloadend = () => {
       setImg(reader.result);
     };
@@ -28,35 +67,58 @@ function Portfolio() {
     reader.readAsDataURL(file);
   };
 
-  const addProject = () => {
+  const addProject = async () => {
+    if (loading) return;
+
     if (!title || !desc || !img) {
       alert("Fill all fields");
       return;
     }
 
-    const newProject = { title, desc, img };
-    setProjects([...projects, newProject]);
+    setLoading(true);
+
+    const projectRef = ref(db, "projects");
+    const newProject = push(projectRef);
+
+    await set(newProject, {
+      title,
+      desc,
+      img
+    });
 
     setTitle("");
     setDesc("");
     setImg("");
     setIsOpen(false);
+    setLoading(false);
   };
 
-  const deleteProject = (index) => {
-    setProjects(projects.filter((_, i) => i !== index));
+  const deleteProject = async (id) => {
+    await remove(ref(db, `projects/${id}`));
   };
 
   return (
     <section className="projects">
       <h2 className="section-title">My Projects</h2>
 
-      {/* BUTTON */}
-      <button className="open-btn" onClick={() => setIsOpen(true)}>
-        + Add Project
-      </button>
+      {!isAdmin && (
+  <div className="admin-login">
+    <input
+      type="password"
+      placeholder="Admin Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <button onClick={adminLogin}>Login</button>
+  </div>
+)}
 
-      {/* SIDEBAR */}
+      {isAdmin && (
+  <button className="open-btn" onClick={() => setIsOpen(true)}>
+    + Add Project
+  </button>
+)}
+
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-content">
           <h2>Add Project</h2>
@@ -68,7 +130,8 @@ function Portfolio() {
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          <label className="file-label">📁Choose Image
+          <label className="file-label">
+            Choose Image
             <input type="file" accept="image/*" onChange={handleImageUpload} />
           </label>
 
@@ -85,25 +148,33 @@ function Portfolio() {
             onChange={(e) => setDesc(e.target.value)}
           />
 
-          <button onClick={addProject}>Add Project</button>
+          <button onClick={addProject}>
+            {loading ? "Adding..." : "Add Project"}
+          </button>
 
           <button className="close-btn" onClick={() => setIsOpen(false)}>
-            ✖ Close
+            Close
           </button>
         </div>
       </div>
 
-      {/* PROJECTS */}
       <div className="project-container">
-        {projects.map((project, index) => (
-          <div className="project-card" key={index}>
+        {projects.map((project) => (
+          <div className="project-card" key={project.id}>
             <img src={project.img} alt={project.title} />
+
             <h3>{project.title}</h3>
+
             <p>{project.desc}</p>
 
-            <button onClick={() => deleteProject(index)} className="delete-btn">
-              Delete
-            </button>
+           {isAdmin && (
+  <button
+    className="delete-btn"
+    onClick={() => deleteProject(project.id)}
+  >
+    Delete
+  </button>
+)}
           </div>
         ))}
       </div>

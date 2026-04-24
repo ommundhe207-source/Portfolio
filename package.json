@@ -16,12 +16,12 @@
     "dotenv": "^17.4.2",
     "emailjs-com": "^3.2.0",
     "express": "^5.2.1",
+    "firebase": "^12.12.1",
     "openai": "^6.34.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.14.1"
   },
-
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@types/react": "^19.2.14",
