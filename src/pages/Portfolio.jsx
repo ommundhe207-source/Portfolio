@@ -3,15 +3,12 @@ import "./Portfolio.css";
 
 import { db } from "./firebase";
 
-import {
-  ref,
-  push,
-  set,
-  onValue,
-  remove
-} from "firebase/database";
+import { ref, push, set, onValue, remove } from "firebase/database";
 
 function Portfolio() {
+  const [tech, setTech] = useState("");
+  const [liveUrl, setLiveUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
   const [projects, setProjects] = useState([]);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -19,7 +16,7 @@ function Portfolio() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     fetchProjects();
@@ -34,7 +31,7 @@ const [password, setPassword] = useState("");
       if (data) {
         const loaded = Object.keys(data).map((key) => ({
           id: key,
-          ...data[key]
+          ...data[key],
         }));
 
         setProjects(loaded);
@@ -45,13 +42,13 @@ const [password, setPassword] = useState("");
   };
 
   const adminLogin = () => {
-  if (password === "om123") {
-    setIsAdmin(true);
-    setPassword("");
-  } else {
-    alert("Wrong Password");
-  }
-};
+    if (password === "om123") {
+      setIsAdmin(true);
+      setPassword("");
+    } else {
+      alert("Wrong Password");
+    }
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -83,12 +80,18 @@ const [password, setPassword] = useState("");
     await set(newProject, {
       title,
       desc,
-      img
+      img,
+      tech,
+      liveUrl,
+      githubUrl,
     });
 
     setTitle("");
     setDesc("");
     setImg("");
+    setTech("");
+    setLiveUrl("");
+    setGithubUrl("");
     setIsOpen(false);
     setLoading(false);
   };
@@ -102,22 +105,22 @@ const [password, setPassword] = useState("");
       <h2 className="section-title">My Projects</h2>
 
       {!isAdmin && (
-  <div className="admin-login">
-    <input
-      type="password"
-      placeholder="Admin Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
-    <button onClick={adminLogin}>Login</button>
-  </div>
-)}
+        <div className="admin-login">
+          <input
+            type="password"
+            placeholder="Admin Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={adminLogin}>Login</button>
+        </div>
+      )}
 
       {isAdmin && (
-  <button className="open-btn" onClick={() => setIsOpen(true)}>
-    + Add Project
-  </button>
-)}
+        <button className="open-btn" onClick={() => setIsOpen(true)}>
+          + Add Project
+        </button>
+      )}
 
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-content">
@@ -148,6 +151,27 @@ const [password, setPassword] = useState("");
             onChange={(e) => setDesc(e.target.value)}
           />
 
+          <input
+            type="text"
+            placeholder="Technologies (React, Firebase...)"
+            value={tech}
+            onChange={(e) => setTech(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Live Demo URL"
+            value={liveUrl}
+            onChange={(e) => setLiveUrl(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="GitHub URL"
+            value={githubUrl}
+            onChange={(e) => setGithubUrl(e.target.value)}
+          />
+
           <button onClick={addProject}>
             {loading ? "Adding..." : "Add Project"}
           </button>
@@ -167,14 +191,36 @@ const [password, setPassword] = useState("");
 
             <p>{project.desc}</p>
 
-           {isAdmin && (
-  <button
-    className="delete-btn"
-    onClick={() => deleteProject(project.id)}
-  >
-    Delete
-  </button>
-)}
+            <p className="tech">{project.tech}</p>
+
+            <div className="project-links">
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="live-btn"
+              >
+                Live Demo
+              </a>
+
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="github-btn"
+              >
+                GitHub
+              </a>
+            </div>
+
+            {isAdmin && (
+              <button
+                className="delete-btn"
+                onClick={() => deleteProject(project.id)}
+              >
+                Delete
+              </button>
+            )}
           </div>
         ))}
       </div>

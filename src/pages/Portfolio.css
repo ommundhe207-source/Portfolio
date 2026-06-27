@@ -185,9 +185,9 @@ margin:15px 0;
   align-items: center;
   gap: 12px;
   margin: 20px auto;
-  padding: 15px 20px;
+  padding: 7px 7px;
   width: fit-content;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
@@ -210,13 +210,13 @@ margin:15px 0;
   color: #ddd;
 }
 
-.admin-login input:focus {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #00f7ff;
+.admin-login input:hover {
+   transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 10px #242424;
 }
 
 .admin-login button {
-  padding: 12px 18px;
+  padding: 10px 10px;
   border: none;
   border-radius: 10px;
   background: linear-gradient(135deg, #00f7ff, #0066ff);
@@ -228,7 +228,7 @@ margin:15px 0;
 
 .admin-login button:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 18px rgba(0, 247, 255, 0.4);
+  box-shadow: 0 8px 18px rgba(41, 41, 41, 0.4);
 }
 
 .admin-login button:active {
@@ -244,4 +244,48 @@ margin:15px 0;
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+
+.project-links{
+display:flex;
+gap:10px;
+justify-content:center;
+margin-top:15px;
+}
+
+.live-btn,
+.github-btn{
+
+padding:5px 7px;
+border-radius:8px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+transition:.3s;
+
+}
+
+.live-btn{
+background:#00c853;
+}
+
+.github-btn{
+background:#24292e;
+}
+
+.live-btn:hover,
+.github-btn:hover{
+
+transform:scale(1.05);
+
+}
+
+.tech{
+
+margin-top:10px;
+color:#00e5ff;
+font-size:14px;
+
 }

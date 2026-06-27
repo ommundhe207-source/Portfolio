@@ -45,6 +45,9 @@ export default function ChatWidget() {
     if (text.includes("contact")) {
       return "📧 ommundhe207@email.com\n🌐 github.com/Om Mundhe";
     }
+    if (text.includes("name")) {
+       return "Vaishnavi";
+    }
 
     if (text.includes("resume")) {
       return "You can download my resume from the portfolio website!";
